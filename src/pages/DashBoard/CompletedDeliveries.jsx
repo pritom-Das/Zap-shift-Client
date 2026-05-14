@@ -18,11 +18,15 @@ const CompletedDeliveries = () => {
     },
   });
 
-  // Payout calculation function
   const calculatePayout = (parcel) => {
     const { cost, senderDistric, receiverDistrict } = parcel;
     const rate = senderDistric === receiverDistrict ? 0.7 : 0.5;
-    return (cost * rate).toFixed(2); // Returning fixed decimals for currency
+    return (cost * rate).toFixed(2);
+  };
+
+  // Temporary function for the Cashout button
+  const handleCashoutClick = () => {
+    alert("Cashout functionality is currently under development. Stay tuned!");
   };
 
   if (isLoading)
@@ -33,25 +37,27 @@ const CompletedDeliveries = () => {
     );
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Completed Deliveries</h2>
+    <div className="p-4 md:p-6 max-w-7xl mx-auto">
+      {/* Header Section - Responsive Flex */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <h2 className="text-xl md:text-2xl font-bold">Completed Deliveries</h2>
         <div className="badge badge-success text-white p-4">
           Total Tasks: {parcels.length}
         </div>
       </div>
 
+      {/* Table Container - Mobile friendly overflow */}
       <div className="overflow-x-auto shadow-xl rounded-xl border border-base-300">
-        <table className="table table-zebra w-full">
+        <table className="table table-compact md:table-normal w-full">
           {/* Table Head */}
           <thead className="bg-base-200">
-            <tr className="text-sm">
-              <th>#</th>
-              <th>Parcel Name</th>
-              <th>Created At</th>
+            <tr className="text-xs md:text-sm">
+              <th className="hidden sm:table-cell">#</th>
+              <th>Parcel Details</th>
+              <th className="hidden md:table-cell">Created</th>
               <th>Cost</th>
-              <th>Pickup District</th>
-              <th>Your Payout</th>
+              <th className="hidden lg:table-cell">Pickup</th>
+              <th>Payout</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
@@ -61,25 +67,29 @@ const CompletedDeliveries = () => {
             {parcels.length > 0 ? (
               parcels.map((parcel, index) => (
                 <tr key={parcel._id} className="hover">
-                  <th>{index + 1}</th>
+                  <th className="hidden sm:table-cell">{index + 1}</th>
                   <td>
-                    <div className="font-bold">{parcel.parcelName}</div>
-                    <div className="text-xs opacity-50">
-                      {parcel.parcelType}
+                    <div className="font-bold text-sm md:text-base">
+                      {parcel.parcelName}
+                    </div>
+                    <div className="text-xs opacity-50 block md:hidden">
+                      From: {parcel.senderDistric}
                     </div>
                   </td>
-                  <td>
+                  <td className="hidden md:table-cell text-sm">
                     {new Date(parcel.createdAt).toLocaleDateString("en-GB")}
                   </td>
-                  <td className="font-semibold">{parcel.cost} TK</td>
-                  <td>{parcel.senderDistric}</td>
-                  <td className="text-success font-bold">
+                  <td className="text-sm">{parcel.cost} TK</td>
+                  <td className="hidden lg:table-cell">
+                    {parcel.senderDistric}
+                  </td>
+                  <td className="text-success font-bold text-sm md:text-base">
                     {calculatePayout(parcel)} TK
                   </td>
                   <td className="text-center">
                     <button
-                      className="btn btn-primary btn-sm normal-case"
-                      onClick={() => console.log("Cashout for:", parcel._id)}
+                      className="btn btn-primary btn-xs md:btn-sm normal-case"
+                      onClick={handleCashoutClick}
                     >
                       Cashout
                     </button>
