@@ -23,6 +23,8 @@ import AssignedDeliveries from "../pages/DashBoard/AssignedDeliveries";
 import RiderRoute from "./RiderRoute";
 import CompletedDeliveries from "../pages/DashBoard/CompletedDeliveries";
 import TrackParcel from "../pages/Shared/TrackParcel/TrackParcel";
+import Services from "../pages/Shared/Services";
+import Aboutus from "../pages/Shared/Aboutus";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: home,
+      },
+      {
+        path: "services",
+        Component: Services,
+      },
+      {
+        path: "aboutus",
+        Component: Aboutus,
       },
       {
         path: "rider",
