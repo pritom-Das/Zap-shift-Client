@@ -60,17 +60,18 @@ const ApproveRIders = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Pending Rider Applications</h2>
+    <div className="p-2 md:p-6">
+      {/* Responsive Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h2 className="text-xl md:text-2xl font-bold">Pending Applications</h2>
         <div className="badge badge-warning badge-outline p-4 font-semibold">
           Pending: {riders.length}
         </div>
       </div>
 
-      <div className="overflow-x-auto shadow-xl rounded-xl border border-base-200">
+      {/* Desktop/Tablet Table View (Hidden on mobile) */}
+      <div className="hidden lg:block overflow-x-auto shadow-xl rounded-xl border border-base-200">
         <table className="table table-zebra w-full">
-          {/* Table Head */}
           <thead className="bg-base-300">
             <tr>
               <th className="text-center">#</th>
@@ -78,11 +79,11 @@ const ApproveRIders = () => {
               <th>Contact Details</th>
               <th>Documents (NID/DL)</th>
               <th>Applied Date</th>
-              <th>Current Status</th>
+              <th>Status</th>
+              <th>Work Status</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {riders.map((rider, index) => (
               <tr key={rider._id}>
@@ -132,24 +133,37 @@ const ApproveRIders = () => {
                   </span>
                 </td>
                 <td>
+                  <span
+                    className={`badge badge-sm font-bold capitalize p-3 ${
+                      rider.workStatus === "available"
+                        ? "badge-success text-white"
+                        : rider.workStatus === "on-delivery"
+                          ? "badge-warning"
+                          : "badge-ghost"
+                    }`}
+                  >
+                    {rider.workStatus || "Not Specified"}
+                  </span>
+                </td>
+                <td>
                   <div className="flex justify-center gap-2">
                     <button
                       onClick={() => handleApprove(rider)}
                       className="btn btn-square btn-sm btn-success btn-outline hover:text-white"
-                      title="Approve Rider"
+                      title="Approve"
                     >
                       <FaUserCheck size={16} />
                     </button>
                     <button
                       onClick={() => handleReject(rider)}
                       className="btn btn-square btn-sm btn-error btn-outline hover:text-white"
-                      title="Reject Application"
+                      title="Reject"
                     >
                       <IoPersonRemoveSharp size={16} />
                     </button>
                     <button
                       className="btn btn-square btn-sm btn-ghost text-slate-400 hover:text-error"
-                      title="Delete Record"
+                      title="Delete"
                     >
                       <IoTrashBin size={18} />
                     </button>
@@ -159,13 +173,79 @@ const ApproveRIders = () => {
             ))}
           </tbody>
         </table>
-
-        {riders.length === 0 && (
-          <div className="text-center p-16 bg-base-100 italic text-base-content/50">
-            No pending rider applications to review at this time.
-          </div>
-        )}
       </div>
+
+      {/* Mobile Card View (Visible on small screens) */}
+      <div className="lg:hidden grid grid-cols-1 gap-4">
+        {riders.map((rider, index) => (
+          <div
+            key={rider._id}
+            className="card bg-base-100 shadow-md border border-base-200"
+          >
+            <div className="card-body p-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-bold text-lg">{rider.name}</h3>
+                  <p className="text-xs opacity-60 uppercase">
+                    {rider.district}, {rider.region}
+                  </p>
+                </div>
+                <span
+                  className={`badge badge-sm font-bold capitalize p-3 ${
+                    rider.status === "approved"
+                      ? "badge-success text-white"
+                      : rider.status === "pending"
+                        ? "badge-warning"
+                        : "badge-error text-white"
+                  }`}
+                >
+                  {rider.status}
+                </span>
+              </div>
+
+              <div className="divider my-1"></div>
+
+              <div className="space-y-2 text-sm">
+                <p>
+                  <strong>Email:</strong> {rider.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {rider.phoneNumber}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="badge badge-ghost font-mono">
+                    NID: {rider.nid}
+                  </span>
+                  <span className="badge badge-ghost font-mono">
+                    DL: {rider.drivingLicense}
+                  </span>
+                </div>
+              </div>
+
+              <div className="card-actions justify-end mt-4 pt-4 border-t border-base-200">
+                <button
+                  onClick={() => handleApprove(rider)}
+                  className="btn btn-success btn-sm text-white flex-1"
+                >
+                  <FaUserCheck /> Approve
+                </button>
+                <button
+                  onClick={() => handleReject(rider)}
+                  className="btn btn-error btn-sm text-white flex-1"
+                >
+                  <IoPersonRemoveSharp /> Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {riders.length === 0 && (
+        <div className="text-center p-16 bg-base-100 italic text-base-content/50 rounded-xl border border-dashed mt-4">
+          No pending rider applications to review at this time.
+        </div>
+      )}
     </div>
   );
 };

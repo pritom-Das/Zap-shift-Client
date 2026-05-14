@@ -1,23 +1,23 @@
 import React from "react";
-import useAuth from "../Hooks/useAuth";
 import useRole from "../Hooks/useRole";
+import useAuth from "../Hooks/useAuth";
 import Forbidden from "../pages/Shared/Forbidden";
 
-const AdminRoute = ({ children }) => {
+const RiderRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const { role, userRoleLoading } = useRole();
 
   //   loading
-  if (loading || userRoleLoading) {
+  if (loading || userRoleLoading || !user) {
     <span class="$$loading $$loading-infinity $$loading-xl"></span>;
   }
 
   //   redirect to forbidden page if the user is not an admin
-  if (role !== "admin") {
+  if (role !== "rider") {
     return <Forbidden />;
   }
-  //   if the user role is admin
+
   return children;
 };
 
-export default AdminRoute;
+export default RiderRoute;

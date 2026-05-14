@@ -1,66 +1,73 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { TbMotorbikeFilled, TbTruckDelivery } from "react-icons/tb";
-import Myparcels from "../pages/DashBoard/Myparcels";
 import { PiCreditCardFill } from "react-icons/pi";
+import { RiEBike2Fill, RiTaskFill } from "react-icons/ri";
 import { FaUser, FaUsers } from "react-icons/fa6";
 import useRole from "../Hooks/useRole";
+import { FaTasks } from "react-icons/fa";
+import { MdTaskAlt } from "react-icons/md";
 
 const DashBoardLayout = () => {
   const { role } = useRole();
   console.log("user role is ", role);
+
   return (
-    <div>
+    <div className="min-h-screen bg-base-100">
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
+
+        <div className="drawer-content flex flex-col">
           {/* Navbar */}
-          <nav className="navbar w-full bg-base-300">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
-            >
-              {/* Sidebar toggle icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2"
-                fill="none"
-                stroke="currentColor"
-                className="my-1.5 inline-block size-4"
+          <nav className="navbar w-full bg-base-300 shadow-sm sticky top-0 z-10">
+            <div className="flex-none lg:hidden">
+              <label
+                htmlFor="my-drawer-4"
+                aria-label="open sidebar"
+                className="btn btn-square btn-ghost"
               >
-                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-                <path d="M9 4v16"></path>
-                <path d="M14 10l2 2l-2 2"></path>
-              </svg>
-            </label>
-            <div className="px-4">Zap-shift DashBoard</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  fill="none"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path d="M4 6l16 0"></path>
+                  <path d="M4 12l16 0"></path>
+                  <path d="M4 18l16 0"></path>
+                </svg>
+              </label>
+            </div>
+            <div className="flex-1 px-4 font-bold text-lg">
+              Zap-shift DashBoard
+            </div>
           </nav>
+
           {/* Page content here */}
-          <Outlet />
-          {/* <Myparcels /> */}
+          <main className="p-4 md:p-6 lg:p-8">
+            <Outlet />
+          </main>
         </div>
 
-        <div className="drawer-side is-drawer-close:overflow-visible">
+        <div className="drawer-side z-20">
           <label
             htmlFor="my-drawer-4"
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+
+          <div className="flex min-h-full flex-col w-64 bg-base-200">
             {/* Sidebar content here */}
-            <ul className="menu w-full grow">
-              {/* List item */}
+            <div className="p-4 font-bold text-xl border-b border-base-300 text-primary">
+              Zap-Shift
+            </div>
+            <ul className="menu p-4 w-full grow gap-2">
               <li>
-                <Link
-                  to="/"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
-                >
-                  {/* Home icon */}
+                <Link to="/" data-tip="Homepage">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -69,79 +76,93 @@ const DashBoardLayout = () => {
                     strokeWidth="2"
                     fill="none"
                     stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
+                    className="size-5"
                   >
                     <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   </svg>
-                  <span className="is-drawer-close:hidden">Homepage</span>
+                  <span>Homepage</span>
                 </Link>
               </li>
-              {/* ................................................................ */}
+
               <li>
-                <Link
-                  to="/dashboard/my-parcels"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="My Parcels"
-                >
-                  {/* Home icon */}
-                  <TbTruckDelivery />
-                  <span className="is-drawer-close:hidden">My parcels</span>
+                <Link to="/dashboard/my-parcels" data-tip="My Parcels">
+                  <TbTruckDelivery className="text-xl" />
+                  <span>My parcels</span>
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/dashboard/payment-history"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Payment History"
                 >
-                  {/* Home icon */}
-                  <PiCreditCardFill />
-                  <span className="is-drawer-close:hidden">
-                    Payment History
-                  </span>
+                  <PiCreditCardFill className="text-xl" />
+                  <span>Payment History</span>
                 </Link>
               </li>
-              {role === "admin" && (
+
+              {/* .....................rider only links..................... */}
+              {role === "rider" && (
                 <>
-                  {/* ................................Approve riders ........................................... */}
                   <li>
                     <Link
-                      to="/dashboard/approve-riders"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Approve Riders"
+                      to="/dashboard/assigned-deliveries"
+                      data-tip="Assigned Deliveries"
                     >
-                      <TbMotorbikeFilled />
-                      <span className="is-drawer-close:hidden">
-                        Approve Riders
-                      </span>
+                      <FaTasks className="text-xl" />
+                      <span>Assigned deliveries</span>
                     </Link>
                   </li>
-                  {/* ......................................user Management............................................. */}
                   <li>
                     <Link
-                      to="/dashboard/user-management"
-                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="User Management"
+                      to="/dashboard/completed-deliveries"
+                      data-tip="Completed Deliveries"
                     >
-                      <FaUsers />
-                      <span className="is-drawer-close:hidden">
-                        User Management
-                      </span>
+                      <RiTaskFill className="text-xl" />
+                      <span>Completed deliveries</span>
                     </Link>
                   </li>
                 </>
               )}
-              {/* <li>
-                <NavLink to="/dashboard/my-parcels">My parcels</NavLink>
-              </li> */}
-              {/* List item */}
+
+              {/* .....................admin only links....................... */}
+              {role === "admin" && (
+                <>
+                  <li>
+                    <Link
+                      to="/dashboard/approve-riders"
+                      data-tip="Approve Riders"
+                    >
+                      <TbMotorbikeFilled className="text-xl" />
+                      <span>Approve Riders</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/assign-riders"
+                      data-tip="Assign Riders"
+                    >
+                      <RiEBike2Fill className="text-xl" />
+                      <span>Assign Riders</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/user-management"
+                      data-tip="User Management"
+                    >
+                      <FaUsers className="text-xl" />
+                      <span>User Management</span>
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              <div className="divider"></div>
+
               <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
+                <button data-tip="Settings">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -150,14 +171,14 @@ const DashBoardLayout = () => {
                     strokeWidth="2"
                     fill="none"
                     stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
+                    className="size-5"
                   >
                     <path d="M20 7h-9"></path>
                     <path d="M14 17H5"></path>
                     <circle cx="17" cy="17" r="3"></circle>
                     <circle cx="7" cy="7" r="3"></circle>
                   </svg>
-                  <span className="is-drawer-close:hidden">Settings</span>
+                  <span>Settings</span>
                 </button>
               </li>
             </ul>

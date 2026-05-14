@@ -18,6 +18,11 @@ import BeaRider from "../pages/Rider/BeaRider";
 import ApproveRIders from "../pages/DashBoard/ApproveRIders";
 import UserManagement from "../pages/DashBoard/UserManagement";
 import AdminRoute from "./AdminRoute";
+import AssignRiders from "../pages/DashBoard/AssignRiders";
+import AssignedDeliveries from "../pages/DashBoard/AssignedDeliveries";
+import RiderRoute from "./RiderRoute";
+import CompletedDeliveries from "../pages/DashBoard/CompletedDeliveries";
+import TrackParcel from "../pages/Shared/TrackParcel/TrackParcel";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +51,10 @@ export const router = createBrowserRouter([
         ),
 
         loader: () => fetch("/warehouses.json").then((res) => res.json()),
+      },
+      {
+        path: "track-parcel/:trackingId",
+        Component: TrackParcel,
       },
 
       {
@@ -103,6 +112,24 @@ export const router = createBrowserRouter([
         path: "payment-history",
         Component: PaymentHistory,
       },
+      // ..............................rider only routes...............................
+      {
+        path: "assigned-deliveries",
+        element: (
+          <RiderRoute>
+            <AssignedDeliveries />
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "completed-deliveries",
+        element: (
+          <RiderRoute>
+            <CompletedDeliveries />
+          </RiderRoute>
+        ),
+      },
+      // ..............................admin only routes...............................
       {
         path: "approve-riders",
         element: (
@@ -120,6 +147,14 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
         // Component: UserManagement,
+      },
+      {
+        path: "assign-riders",
+        element: (
+          <AdminRoute>
+            <AssignRiders />
+          </AdminRoute>
+        ),
       },
     ],
   },
